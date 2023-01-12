@@ -531,6 +531,13 @@ class ZDA(TalkerSentence, DatetimeFix):
         return d.astimezone(self.tzinfo)
 
 
+class MTA(TalkerSentence):
+    """ Air Temperature (to be phased out)
+    """
+    fields = (
+        ("Air temperature", "temperature", Decimal),
+        ("Units of measurement", "units"),
+    )
 
 
 # Implemented by Janez Stupar for Visionect
@@ -853,12 +860,6 @@ class TTM(TalkerSentence):
 
 #class LCD(TalkerSentence):
 #    """ Loran-C Signal Data
-#    """
-    #    fields = (
-    # )
-
-#class MTA(TalkerSentence):
-#    """ Air Temperature (to be phased out)
 #    """
     #    fields = (
     # )

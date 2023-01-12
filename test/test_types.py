@@ -306,3 +306,12 @@ def test_GRS():
     assert msg.sv_res_05 == -0.1
     assert msg.sv_res_06 == 0.5
     assert msg.sv_res_07 == None
+
+def test_MTA():
+    data = "$WIMTA,010.0,C*2A"
+    msg = pynmea2.parse(data)
+    assert msg.render() == data
+    assert msg.talker == 'WI'
+    assert msg.sentence_type == 'MTA'
+    assert msg.temperature == 10.0
+    assert msg.units == 'C'
