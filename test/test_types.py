@@ -369,3 +369,12 @@ def test_MMB():
     assert msg.sentence_type == 'MMB'
     assert msg.pressure_bars == 1004.6
     assert msg.unit_bars == "B*03"
+    
+def test_PFEC():
+    data = '$PFEC,GPatt,170.0,-01.2,+00.9*42'
+    msg = pynmea2.parse(data)
+    assert msg.render() == data
+    assert msg.heading == 170.0
+    assert msg.pitch == -01.2
+    assert msg.roll == '+00.9'
+    assert msg.message_type == 'GPatt'

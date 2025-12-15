@@ -1131,3 +1131,21 @@ class MMB(TalkerSentence):
       ("PressureBars", "pressure_bars", Decimal),
       ("UnitBars", "unit_bars")
     )
+
+#                   1     2     3     4
+# Example: '$PFEC,GPatt,170.0,-01.2,+00.9*42'
+# 1: Message Type
+# 2: Heading
+# 3: Pitch
+# 4: Roll
+class PFEC(TalkerSentence):
+    """
+    proprietary NMEA sentence from Furuno
+    GPS attitude/heading message.
+    """
+    fields = (
+        ("MessageType", "message_type"),
+        ("Heading", "heading", Decimal),
+        ("Pitch", "pitch", Decimal),
+        ("Roll", "roll"),
+    )
