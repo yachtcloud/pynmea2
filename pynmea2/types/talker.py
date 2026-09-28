@@ -338,6 +338,31 @@ class HDT(TalkerSentence):
     )
 
 
+class HTD(TalkerSentence):
+    """ Heading/track control data
+        $--HTD,a,x.x,a,a,a,x.x,x.x,x.x,x.x,x.x,x.x,x.x,a,a,a,a,x.x*hh<CR><LF>
+    """
+    fields = (
+        ('Override', 'override'),
+        ('Commanded rudder angle', 'commanded_rudder_angle', Decimal),
+        ('Commanded rudder direction', 'commanded_rudder_direction'),
+        ('Selected steering mode', 'selected_steering_mode'),
+        ('Turn mode', 'turn_mode'),
+        ('Commanded rudder limit', 'commanded_rudder_limit', Decimal),
+        ('Commanded off-heading limit', 'commanded_off_heading_limit', Decimal),
+        ('Commanded radius of turn', 'commanded_radius_of_turn', Decimal),
+        ('Commanded rate of turn', 'commanded_rate_of_turn', Decimal),
+        ('Commanded heading-to-steer', 'commanded_heading_to_steer', Decimal),
+        ('Commanded off-track limit', 'commanded_off_track_limit', Decimal),
+        ('Commanded track', 'commanded_track', Decimal),
+        ('Heading reference in use', 'heading_reference_in_use'),
+        ('Rudder status', 'rudder_status'),
+        ('Off-heading status', 'off_heading_status'),
+        ('Off-track status', 'off_track_status'),
+        ('Vessel heading', 'vessel_heading', Decimal),
+    )
+
+
 class RMA(TalkerSentence):
     fields = (
         ("Data status", "data_status"),

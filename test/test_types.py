@@ -369,3 +369,29 @@ def test_MMB():
     assert msg.sentence_type == 'MMB'
     assert msg.pressure_bars == 1004.6
     assert msg.unit_bars == "B"
+
+
+def test_HTD():
+    data = '$AGHTD,V,0.3,R,M,N,35.0,30.0,0.5,30.0,,0.000,,T,A,A,A,14.5*4E'
+    msg = pynmea2.parse(data)
+    assert isinstance(msg, pynmea2.HTD)
+    assert msg.talker == 'AG'
+    assert msg.sentence_type == 'HTD'
+    assert msg.override == 'V'
+    assert msg.commanded_rudder_angle == Decimal('0.3')
+    assert msg.commanded_rudder_direction == 'R'
+    assert msg.selected_steering_mode == 'M'
+    assert msg.turn_mode == 'N'
+    assert msg.commanded_rudder_limit == Decimal('35.0')
+    assert msg.commanded_off_heading_limit == Decimal('30.0')
+    assert msg.commanded_radius_of_turn == Decimal('0.5')
+    assert msg.commanded_rate_of_turn == Decimal('30.0')
+    assert msg.commanded_heading_to_steer is None
+    assert msg.commanded_off_track_limit == Decimal('0.000')
+    assert msg.commanded_track is None
+    assert msg.heading_reference_in_use == 'T'
+    assert msg.rudder_status == 'A'
+    assert msg.off_heading_status == 'A'
+    assert msg.off_track_status == 'A'
+    assert msg.vessel_heading == Decimal('14.5')
+    assert msg.render() == data
