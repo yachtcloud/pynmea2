@@ -414,3 +414,35 @@ def test_POS():
     assert msg.ship_length is None
     assert msg.status == 'R'
     assert msg.render() == data
+
+
+@pytest.mark.parametrize('data, seq_message_id', [
+    ('$VDALC,01,01,59,0*60', 59),
+    ('$AIALC,01,01,46,0*74', 46),
+])
+def test_ALC_without_alert_entries(data, seq_message_id):
+    msg = pynmea2.parse(data)
+    assert isinstance(msg, pynmea2.ALC)
+    assert msg.sentence_type == 'ALC'
+    assert msg.num_sentences == 1
+    assert msg.sentence_num == 1
+    assert msg.seq_message_id == seq_message_id
+    assert msg.num_alert_entries == 0
+    assert msg.manufacturer_1 == ''
+    assert msg.alert_id_1 is None
+    assert msg.render() == data
+
+
+def test_ALC_with_alert_entry():
+    data = '$FBALC,02,01,03,01,FEB,01,02,03*0A'
+    msg = pynmea2.parse(data)
+    assert isinstance(msg, pynmea2.ALC)
+    assert msg.num_sentences == 2
+    assert msg.sentence_num == 1
+    assert msg.seq_message_id == 3
+    assert msg.num_alert_entries == 1
+    assert msg.manufacturer_1 == 'FEB'
+    assert msg.alert_id_1 == 1
+    assert msg.alert_instance_1 == 2
+    assert msg.revision_counter_1 == 3
+    assert msg.render() == data

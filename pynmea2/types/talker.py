@@ -56,6 +56,30 @@ class ALR(TalkerSentence):
     )
 
 
+class ALC(TalkerSentence):
+    """ Cyclic alert list
+        $--ALC,xx,xx,xx,xx,aaa,x.x,x.x,x.x,...,aaa,x.x,x.x,x.x*hh<CR><LF>
+    """
+    fields = (
+        ('Total number of sentences for this message', 'num_sentences', int),
+        ('Sentence number', 'sentence_num', int),
+        ('Sequential message identifier', 'seq_message_id', int),
+        ('Number of alert entries', 'num_alert_entries', int),
+        ('Manufacturer mnemonic code 1', 'manufacturer_1'),
+        ('Alert identifier 1', 'alert_id_1', int),
+        ('Alert instance 1', 'alert_instance_1', int),
+        ('Revision counter 1', 'revision_counter_1', int),
+        ('Manufacturer mnemonic code 2', 'manufacturer_2'),
+        ('Alert identifier 2', 'alert_id_2', int),
+        ('Alert instance 2', 'alert_instance_2', int),
+        ('Revision counter 2', 'revision_counter_2', int),
+        ('Manufacturer mnemonic code 3', 'manufacturer_3'),
+        ('Alert identifier 3', 'alert_id_3', int),
+        ('Alert instance 3', 'alert_instance_3', int),
+        ('Revision counter 3', 'revision_counter_3', int),
+    )
+
+
 class APA(TalkerSentence):
     """ Autopilot Sentence "A"
     """
