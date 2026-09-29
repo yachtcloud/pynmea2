@@ -402,3 +402,59 @@ def test_MHU_other_talker():
     assert msg.absolute_humidity == Decimal('10.1')
     assert msg.dew_point_temperature == Decimal('14.3')
     assert msg.temperature_unit == 'C'
+
+
+def test_HTD_parses_typed_heading_and_track_fields():
+    sentence = '$AGHTD,V,0.3,R,M,N,35.0,30.0,0.5,30.0,,0.000,,T,A,A,A,14.5*4E'
+
+    msg = pynmea2.parse(sentence)
+
+    assert isinstance(msg, pynmea2.HTD)
+    assert msg.talker == 'AG'
+    assert msg.sentence_type == 'HTD'
+    assert msg.override == 'V'
+    assert msg.commanded_rudder_angle == Decimal('0.3')
+    assert msg.commanded_rudder_direction == 'R'
+    assert msg.selected_steering_mode == 'M'
+    assert msg.turn_mode == 'N'
+    assert msg.commanded_rudder_limit == Decimal('35.0')
+    assert msg.commanded_off_heading_limit == Decimal('30.0')
+    assert msg.commanded_radius_of_turn == Decimal('0.5')
+    assert msg.commanded_rate_of_turn == Decimal('30.0')
+    assert msg.commanded_heading_to_steer is None
+    assert msg.commanded_off_track_limit == Decimal('0.000')
+    assert msg.commanded_track is None
+    assert msg.heading_reference_in_use == 'T'
+    assert msg.rudder_status == 'A'
+    assert msg.off_heading_status == 'A'
+    assert msg.off_track_status == 'A'
+    assert msg.vessel_heading == Decimal('14.5')
+    assert msg.render() == sentence
+
+
+def test_POS_keeps_raw_fields_and_empty_positions():
+    sentence = '$VDPOS,VD,01,A,0.0,0.0,,V,,,R*08'
+
+    msg = pynmea2.parse(sentence)
+
+    assert isinstance(msg, pynmea2.POS)
+    assert msg.field_1 == 'VD'
+    assert msg.field_6 == ''
+    assert msg.field_7 == 'V'
+    assert msg.field_10 == 'R'
+    assert len(pynmea2.POS.fields) == 11
+    assert msg.render() == sentence
+
+
+@pytest.mark.parametrize('talker', ['VD', 'AI'])
+def test_ALC_supports_both_talkers_and_retains_alert_group_fields(talker):
+    sentence = '${}ALC,01,02,59,0,group,condition'.format(talker)
+
+    msg = pynmea2.parse(sentence)
+
+    assert isinstance(msg, pynmea2.ALC)
+    assert msg.sentence_type == 'ALC'
+    assert msg.field_1 == '01'
+    assert msg.field_4 == '0'
+    assert msg.data[4:] == ['group', 'condition']
+    assert msg.render(checksum=False) == sentence
