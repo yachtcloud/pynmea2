@@ -1156,3 +1156,21 @@ class MMB(TalkerSentence):
       ("PressureBars", "pressure_bars", float),
       ("UnitBars", "unit_bars")
     )
+
+
+class POS(TalkerSentence):
+    """ Device position and ship dimensions report or configuration command
+        $--POS,cc,xx,a,x.x,x.x,x.x,a,x.x,x.x,a*hh<CR><LF>
+    """
+    fields = (
+        ('Equipment identification', 'equipment_id'),
+        ('Equipment number', 'equipment_num', int),
+        ('Position validity flag (A=valid, V=invalid)', 'position_validity'),
+        ('Position X-coordinate, meters', 'pos_x', Decimal),
+        ('Position Y-coordinate, meters', 'pos_y', Decimal),
+        ('Position Z-coordinate, meters', 'pos_z', Decimal),
+        ('Ship\'s width/length validity flag (A=valid, V=invalid)', 'dimensions_validity'),
+        ('Ship\'s width, meters', 'ship_width', Decimal),
+        ('Ship\'s length, meters', 'ship_length', Decimal),
+        ('Sentence status flag (R=report, C=configuration command)', 'status'),
+    )

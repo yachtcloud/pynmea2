@@ -395,3 +395,22 @@ def test_HTD():
     assert msg.off_track_status == 'A'
     assert msg.vessel_heading == Decimal('14.5')
     assert msg.render() == data
+
+
+def test_POS():
+    data = '$VDPOS,VD,01,A,0.0,0.0,,V,,,R*08'
+    msg = pynmea2.parse(data)
+    assert isinstance(msg, pynmea2.POS)
+    assert msg.talker == 'VD'
+    assert msg.sentence_type == 'POS'
+    assert msg.equipment_id == 'VD'
+    assert msg.equipment_num == 1
+    assert msg.position_validity == 'A'
+    assert msg.pos_x == Decimal('0.0')
+    assert msg.pos_y == Decimal('0.0')
+    assert msg.pos_z is None
+    assert msg.dimensions_validity == 'V'
+    assert msg.ship_width is None
+    assert msg.ship_length is None
+    assert msg.status == 'R'
+    assert msg.render() == data
